@@ -29,22 +29,16 @@ def driver(request):
         options = FirefoxOptions()
         options.add_argument("--headless")
         wd = webdriver.Firefox(capabilities=capabilities, options=options)
-        wd.maximize_window()
-        request.addfinalizer(wd.quit)
-        return wd
     elif browser == 'chrome':
         options = ChromeOptions()
         options.add_argument("--headless")
         wd = webdriver.Chrome(options=options)
-        wd.maximize_window()
-        request.addfinalizer(wd.quit)
-        return wd
     else:
         capabilities = webdriver.DesiredCapabilities.INTERNETEXPLORER
         wd = webdriver.Ie(capabilities=capabilities)
-        wd.maximize_window()
-        request.addfinalizer(wd.quit)
-        return wd
+    wd.maximize_window()
+    request.addfinalizer(wd.quit)
+    return wd
 
 
 @pytest.fixture
@@ -52,5 +46,3 @@ def url_opencart(request):
     """Функция для передачи url через командную строку"""
     base_url = request.config.getoption("--url")
     return base_url
-
-
